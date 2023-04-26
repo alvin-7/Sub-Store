@@ -32,8 +32,13 @@ export default function register($app) {
 
     // Redirect sub.store to vercel webpage
     $app.get('/', async (req, res) => {
+        const { isNode } = ENV();
         // 302 redirect
-        res.set('location', 'https://sub-store.vercel.app/').status(302).end();
+        if (isNode) {
+            res.status(200).end();
+        } else {
+            res.set('location', 'https://sub-store.vercel.app/').status(302).end();
+        }
     });
 
     // handle preflight request for QX

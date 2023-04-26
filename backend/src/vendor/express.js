@@ -17,6 +17,8 @@ export default function express({ substore: $, port }) {
         const express_ = eval(`require("express")`);
         const bodyParser = eval(`require("body-parser")`);
         const app = express_();
+
+        app.use(express_.static('public'));
         app.use(bodyParser.json({ verify: rawBodySaver }));
         app.use(
             bodyParser.urlencoded({ verify: rawBodySaver, extended: true }),
