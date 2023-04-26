@@ -10,6 +10,9 @@ COPY web/pnpm-lock.yaml .
 
 RUN pnpm i
 COPY web/ .
+
+RUN find ./src -type f -name "*.vue" -exec sed -i 's/import\.meta\.env\.VITE_API_URL/window.location.host/g' {} +
+
 RUN sed -i "/VITE_API_URL/d" .env.production && \
     pnpm build
 
