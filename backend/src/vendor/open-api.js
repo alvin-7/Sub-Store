@@ -6,6 +6,7 @@ const isNode = eval(`typeof process !== "undefined"`); // eval is needed in orde
 const isStash =
     'undefined' !== typeof $environment && $environment['stash-version'];
 const isShadowRocket = 'undefined' !== typeof $rocket;
+const password = process.env.PASSWORD
 
 export class OpenAPI {
     constructor(name = 'untitled', debug = false) {
@@ -217,7 +218,7 @@ export class OpenAPI {
 }
 
 export function ENV() {
-    return { isQX, isLoon, isSurge, isNode, isStash, isShadowRocket };
+    return { isQX, isLoon, isSurge, isNode, isStash, isShadowRocket, password };
 }
 
 export function HTTP(defaultOptions = { baseURL: '' }) {

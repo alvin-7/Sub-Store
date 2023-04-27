@@ -18,6 +18,8 @@ RUN sed -i "/VITE_API_URL/d" .env.production && \
 
 FROM node:lts-alpine
 
+ENV PASSWORD=""
+
 RUN npm i -g pnpm
 
 WORKDIR /app
@@ -33,4 +35,4 @@ COPY --from=frontend /web/dist /app/public
 
 EXPOSE 3000
 
-CMD ["pnpm", "run", "serve"]
+CMD ["pnpm", "run", "prod"]

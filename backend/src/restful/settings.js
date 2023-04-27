@@ -11,6 +11,7 @@ export default function register($app) {
 
 async function getSettings(req, res) {
     const settings = $.read(SETTINGS_KEY);
+    settings.auth = $.env.password
     if (!settings.avatarUrl) await updateGitHubAvatar();
     if (!settings.artifactStore) await updateArtifactStore();
     success(res, settings);
