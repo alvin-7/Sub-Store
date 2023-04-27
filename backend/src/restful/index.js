@@ -3,6 +3,7 @@ import $ from '@/core/app';
 
 import registerSubscriptionRoutes from './subscriptions';
 import registerCollectionRoutes from './collections';
+import registerAuthRoutes from './auth';
 import registerArtifactRoutes from './artifacts';
 import registerSyncRoutes from './sync';
 import registerDownloadRoutes from './download';
@@ -16,6 +17,7 @@ export default function serve() {
     const $app = express({ substore: $ });
 
     // register routes
+    registerAuthRoutes($app);
     registerCollectionRoutes($app);
     registerSubscriptionRoutes($app);
     registerDownloadRoutes($app);

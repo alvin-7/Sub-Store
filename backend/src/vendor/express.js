@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
+import { failed } from '@/restful/response';
 import { ENV } from './open-api';
+import cache from '@/utils/lru'
 
 export default function express({ substore: $, port }) {
     port = port || 3000;
@@ -16,9 +18,24 @@ export default function express({ substore: $, port }) {
     if (isNode) {
         const express_ = eval(`require("express")`);
         const bodyParser = eval(`require("body-parser")`);
+        const cors = eval(`require("cors")`);
         const app = express_();
 
+        app.use(cors())
         app.use(express_.static('public'));
+
+        // auth
+        app.use((req, res, next) => {
+            if (!req.path.includes('/api') || req.path.includes('/api/verify') || req.path.includes('/api/settings')) {
+                return next()
+            }
+            const auth = req.headers['x-auth']
+            if (!auth || !cache.get(auth)) {
+                return failed(res, "auth failed")
+            }
+            return next()
+        })
+
         app.use(bodyParser.json({ verify: rawBodySaver }));
         app.use(
             bodyParser.urlencoded({ verify: rawBodySaver, extended: true }),
